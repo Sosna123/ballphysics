@@ -1,6 +1,6 @@
 // consts
 const gravity = 9.8;
-const friction = 1.5;
+const friction = 5;
 
 // box
 const borderY = document.body.offsetHeight;
@@ -20,6 +20,7 @@ let circleMovX = 0;
 let circleGrounded = false;
 
 document.body.addEventListener("keydown", (event) => {
+    // moving
     if (event.key == "a") {
         circleAccX -= 0.5;
         if (Math.abs(circleAccX) >= circleMovXLimit) {
@@ -32,9 +33,10 @@ document.body.addEventListener("keydown", (event) => {
             circleAccX = circleMovXLimit;
         }
     }
+    // jumping when on ground
     if (event.code == "Space" && circleGrounded) {
         circleMovY = 1;
-        circleAccY = 15;
+        circleAccY = gravity * 4;
         circleGrounded = false;
     }
 });
