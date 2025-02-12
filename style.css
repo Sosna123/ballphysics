@@ -1,15 +1,21 @@
-body{
+body {
     margin: 0;
     padding: 0;
     width: 100%;
     min-height: 100vh;
 }
 
-#mainCircle{
+#mainCircle {
     width: 100px;
     height: 100px;
     background-color: blue;
     border-radius: 100%;
     z-index: 5;
     position: absolute;
+}
+
+#menu {
+    position: absolute;
+    top: 0;
+    right: 0;
 }

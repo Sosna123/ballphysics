@@ -1,5 +1,5 @@
 // consts
-const gravity = 0.2;
+const gravity = 9.8;
 const friction = 1.5;
 
 // box
@@ -11,7 +11,7 @@ const mainCircle = document.querySelector("#mainCircle");
 const circleHeight = mainCircle.offsetHeight;
 const circleWidth = mainCircle.offsetWidth;
 const circleMovXLimit = 4;
-let circleX = 200;
+let circleX = borderX / 2 - circleWidth / 2;
 let circleY = 0;
 let circleAccY = 0;
 let circleAccX = 0;
@@ -41,18 +41,18 @@ document.body.addEventListener("keydown", (event) => {
 
 setInterval(() => {
     // logs
-    // console.log(`Acceleration => Y: ${circleAccY} X: ${circleAccX}`)
-    // console.log(`Location => Y: ${circleY} X: ${circleX}`)
+    // console.log(`Acceleration => Y: ${circleAccY} X: ${circleAccX}`);
+    // console.log(`Location => Y: ${circleY} X: ${circleX}`);
 
     mainCircle.style.top = `${circleY}px`;
     mainCircle.style.left = `${circleX}px`;
 
     // acceleration
     if (circleMovY == 0 || circleMovY == -1) {
-        circleAccY += gravity;
+        circleAccY += gravity / 10;
         circleMovY = -1;
     } else if (circleMovY == 1) {
-        circleAccY -= gravity;
+        circleAccY -= gravity / 10;
         if (circleAccY <= 0) {
             circleMovY = -1;
         }
@@ -69,11 +69,15 @@ setInterval(() => {
 
     // collsion
     if (circleY + circleHeight >= borderY) {
-        circleMovY = 1;
-        circleAccY -= friction;
+        if (!circleGrounded) {
+            circleMovY = 1;
+        }
+        circleAccY == 0 ? 0 : (circleAccY -= friction);
+        circleY = borderY - circleHeight;
         // stop when speed is too slow to bounce
-        if (circleAccY < 0.1) {
+        if (circleAccY < 0.6) {
             circleAccY = 0;
+            circleY = borderY - circleHeight;
             circleGrounded = true;
         }
     }
@@ -81,3 +85,15 @@ setInterval(() => {
     // move the circle X
     circleX += circleAccX;
 }, 10);
+
+// menu
+const restartButton = document.querySelector("#restart");
+restartButton.addEventListener("click", () => {
+    circleX = borderX / 2 - circleWidth / 2;
+    circleY = 0;
+    circleAccY = 0;
+    circleAccX = 0;
+    circleMovY = 0;
+    circleMovX = 0;
+    circleGrounded = false;
+});
